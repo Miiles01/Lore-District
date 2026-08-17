@@ -53,7 +53,7 @@ export default function Newsletter() {
 
 const styles = {
   section: {
-    padding: '80px 20px',
+    padding: 'clamp(64px, 12vw, 140px) 20px',
     textAlign: 'center',
     maxWidth: '560px',
   },
