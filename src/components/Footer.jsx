@@ -32,7 +32,7 @@ const styles = {
     alignItems: 'center',
   },
   logo: {
-    width: 'min(50%, 260px)',
+    width: 'min(85%, 440px)',
     height: 'auto',
     display: 'block',
     margin: '0 auto 48px',

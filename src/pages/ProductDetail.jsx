@@ -429,7 +429,7 @@ function InfiniteCarousel({ products }) {
       >
         {items.map((p, i) => (
           <div key={`${p.id}-${i}`} className="carousel-item">
-            <ProductCard product={p} />
+            <ProductCard product={p} dark />
           </div>
         ))}
       </div>

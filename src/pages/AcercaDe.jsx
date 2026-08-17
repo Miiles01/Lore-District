@@ -115,7 +115,7 @@ const styles = {
   },
   cardEyebrow: {
     fontSize: '12px',
-    fontWeight: 700,
+    fontWeight: 500,
     textTransform: 'uppercase',
     letterSpacing: '0.1em',
     marginBottom: '12px',
@@ -153,7 +153,7 @@ const styles = {
   },
   pilarNombre: {
     fontFamily: 'var(--font-display)',
-    fontWeight: 900,
+    fontWeight: 500,
     fontSize: '18px',
     textTransform: 'uppercase',
     marginBottom: '12px',

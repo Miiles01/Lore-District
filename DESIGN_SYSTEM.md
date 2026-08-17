@@ -66,7 +66,11 @@ Todas las variables viven en `src/index.css` como custom properties (`--obsidian
 
 ## 3. Tipografía
 
-- **Unbounded** (900/black) — títulos H1-H4, siempre en mayúsculas, tracking negativo (-2% a -4%). Regla global ya aplicada vía CSS (`h1, h2, h3, h4` en `src/index.css`), no hace falta repetirla por componente.
+- **Unbounded 900 (bold) se reserva exclusivamente para H1 y H2** (mayúsculas, tracking negativo
+  -2% a -4%) — decisión del 2026-08-17. H3/H4 y cualquier texto de descripción/etiqueta usan
+  Unbounded en un peso ligero (500), sin mayúsculas forzadas. Nunca poner bold en párrafos de
+  descripción o texto de cuerpo. Regla global ya aplicada vía CSS (`h1, h2` vs `h3, h4` en
+  `src/index.css`), no hace falta repetirla por componente.
 - **Archivo** — todo el cuerpo de texto: descripciones, UI, formularios, datos. Nunca menor a 12pt.
 - No mezclar ambas tipografías dentro del mismo bloque de texto corrido.
 - Ambas se cargan vía Google Fonts en `index.html` (`Unbounded:wght@400;700;900` + `Archivo:wght@400;500;600;700`).

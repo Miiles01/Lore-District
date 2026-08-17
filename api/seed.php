@@ -32,9 +32,8 @@ try {
 
     // Categorías
     $cats = [
-        'Playeras' => 'playeras',
+        'Sudaderas' => 'sudaderas',
         'Hoodies' => 'hoodies',
-        'Gorras' => 'gorras',
     ];
     $cat_ids = [];
     foreach ($cats as $name => $slug) {
@@ -73,23 +72,23 @@ try {
 
     $examples = [
         [
-            'name' => 'Playera Arcade Bordada',
-            'slug' => 'playera-arcade-bordada',
-            'cat' => 'playeras',
-            'description' => 'Playera de algodón de alto gramaje con bordado arcade retro en el pecho. Cultura pop, corte oversize, tela que aguanta lavadas sin perder forma.',
-            'image_url' => '/products/placeholder-playera-arcade.svg',
-            'garment_type' => 'playera',
-            'sizes' => tallas(650),
+            'name' => 'Sudadera Arcade Bordada',
+            'slug' => 'sudadera-arcade-bordada',
+            'cat' => 'sudaderas',
+            'description' => 'Sudadera crewneck de algodón de alto gramaje con bordado arcade retro en el pecho. Cultura pop, corte oversize, tela que aguanta lavadas sin perder forma.',
+            'image_url' => '/products/fotos/sudadera-arcade-01.png',
+            'garment_type' => 'sudadera',
+            'sizes' => tallas(950),
             'colors' => $colores_obsidiana_selva,
         ],
         [
-            'name' => 'Playera Culto Bordada',
-            'slug' => 'playera-culto-bordada',
-            'cat' => 'playeras',
-            'description' => 'Playera oversize inspirada en cine de culto, bordado de alta precisión en manga. Algodón pesado, silueta amplia.',
-            'image_url' => '/products/placeholder-playera-culto.svg',
-            'garment_type' => 'playera',
-            'sizes' => tallas(680),
+            'name' => 'Sudadera Culto Bordada',
+            'slug' => 'sudadera-culto-bordada',
+            'cat' => 'sudaderas',
+            'description' => 'Sudadera crewneck oversize inspirada en cine de culto, bordado de alta precisión en manga. Algodón pesado, silueta amplia.',
+            'image_url' => '/products/fotos/sudadera-culto-01.png',
+            'garment_type' => 'sudadera',
+            'sizes' => tallas(980),
             'colors' => $colores_obsidiana_acero,
         ],
         [
@@ -113,23 +112,23 @@ try {
             'colors' => $colores_obsidiana_acero,
         ],
         [
-            'name' => 'Gorra Lore Bordada',
-            'slug' => 'gorra-lore-bordada',
-            'cat' => 'gorras',
-            'description' => 'Gorra de 6 paneles con el logotipo Lore bordado al frente. Ajuste trasero, mezclilla resistente.',
-            'image_url' => '/products/placeholder-gorra-lore.svg',
-            'garment_type' => 'gorra',
-            'sizes' => json_encode([['name' => 'Única', 'price' => 480]], JSON_UNESCAPED_UNICODE),
+            'name' => 'Sudadera Lore Bordada',
+            'slug' => 'sudadera-lore-bordada',
+            'cat' => 'sudaderas',
+            'description' => 'Sudadera crewneck con el logotipo Lore bordado al frente. Algodón de alto gramaje, corte relajado.',
+            'image_url' => '/products/fotos/sudadera-lore-01.png',
+            'garment_type' => 'sudadera',
+            'sizes' => tallas(920),
             'colors' => $colores_solo_obsidiana,
         ],
         [
-            'name' => 'Playera 1UP Bordada',
-            'slug' => 'playera-1up-bordada',
-            'cat' => 'playeras',
-            'description' => 'Playera con parche bordado estilo videojuego retro "1UP". Corte oversize, algodón grueso, ideal para capas.',
+            'name' => 'Sudadera 1UP Bordada',
+            'slug' => 'sudadera-1up-bordada',
+            'cat' => 'sudaderas',
+            'description' => 'Sudadera crewneck con parche bordado estilo videojuego retro "1UP". Corte oversize, algodón grueso, ideal para capas.',
             'image_url' => '/products/placeholder-playera-1up.svg',
-            'garment_type' => 'playera',
-            'sizes' => tallas(650),
+            'garment_type' => 'sudadera',
+            'sizes' => tallas(950),
             'colors' => $colores_obsidiana_acero,
         ],
     ];
