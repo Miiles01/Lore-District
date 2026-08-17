@@ -1,0 +1,48 @@
+name: Compilar y publicar rama deploy
+
+# En cada push a main: compila el frontend y publica el resultado listo para
+# Hostinger en la rama "deploy". En hPanel (Git → Deploy from GitHub) se
+# selecciona la rama "deploy" apuntando a public_html.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar frontend
+        run: npm run build
+
+      - name: Preparar carpeta de despliegue
+        run: |
+          mkdir -p out
+          cp -a dist/. out/
+          cp -r api out/api
+          rm -f out/api/config.local.php
+
+      - name: Publicar en la rama deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd out
+          git init -b deploy
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Build ${GITHUB_SHA::7}"
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" deploy
