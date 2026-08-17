@@ -7,6 +7,8 @@ import CartDrawer from './components/CartDrawer';
 // ver useDisplayPrice.js) mientras el enfoque está en el diseño visual de la tienda.
 import Home from './pages/Home';
 import AcercaDe from './pages/AcercaDe';
+import TerminosCondiciones from './pages/TerminosCondiciones';
+import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
@@ -40,6 +42,8 @@ function App() {
       <Routes>
         <Route path="/" element={<StoreLayout><Home /></StoreLayout>} />
         <Route path="/acerca-de" element={<StoreLayout><AcercaDe /></StoreLayout>} />
+        <Route path="/terminos-y-condiciones" element={<StoreLayout><TerminosCondiciones /></StoreLayout>} />
+        <Route path="/politica-de-privacidad" element={<StoreLayout><PoliticaPrivacidad /></StoreLayout>} />
         <Route path="/productos" element={<StoreLayout><Products /></StoreLayout>} />
         <Route path="/producto/:slug" element={<StoreLayout><ProductDetail /></StoreLayout>} />
         <Route path="/pagar" element={<StoreLayout><Checkout /></StoreLayout>} />

@@ -43,7 +43,22 @@ detalles puntuales — nunca para pintar un fondo grande.
 - Superficies elevadas dentro de un fondo Obsidiana (tarjetas, drawers, modales) usan `#242428`
   (Obsidiana +1 nivel, sigue siendo "negro"), no un tinte de color.
 - El panel `/admin` sigue siendo la única zona con fondo blanco permanente (ver sección 5).
+- El **Footer** tiene fondo blanco permanente (logotipo y texto en Obsidiana) — decisión del
+  2026-08-17. El **Header/Navbar** sigue con el tema oscuro de la tienda en todas las páginas.
 - Nunca pastel ni degradados arcoíris. La vibra es firme, directa, audaz.
+
+### Logo: dos versiones según fondo
+- `public/brand/logotipo-lore.svg` — solo el wordmark "Lore" (script), relleno **blanco**. Usar
+  sobre fondo oscuro (Header, menú móvil).
+- `public/brand/logotipo-lore-district.svg` — lockup completo "Lore" + "DISTRICT", relleno
+  **negro**. Usar sobre fondo blanco (Footer).
+
+### Fotografía de producto
+**No usar fotos de catálogo de otras marcas/tiendas como fotos de producto de Lore District**,
+aunque el sitio esté en etapa de demo — varias muestran logos reales de marcas de ropa (Jack&Jones®,
+Reese Cooper®, etc.) y son fotografía con derechos de otro retailer. Mientras no haya fotografía
+propia, usar los placeholders SVG on-brand en `public/products/` (fondo Obsidiana/Selva/Acero con
+el nombre del producto).
 
 Todas las variables viven en `src/index.css` como custom properties (`--obsidiana`, `--acero`, `--rosa-neon`, `--azul-distrito`, `--selva`, `--gradient-editorial`). Los alias heredados de la duplicación técnica (`--charcoal`, `--pink`, `--cream`, `--text`, `--text-soft`, `--gold`) apuntan a estos valores — úsalos en componentes nuevos para heredar el tema automáticamente en vez de hardcodear hex.
 
