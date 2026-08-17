@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import SocialLinks from './SocialLinks';
 
 export default function Header() {
   const { count, setDrawerOpen } = useCart();
@@ -122,79 +123,140 @@ export default function Header() {
         </div>
       </motion.header>
 
-      {/* Mobile Menu Full Screen Overlay - Replicating Vibe Weaver */}
+      {/* Menú desplegable: panel que cubre la mitad de la pantalla, no fullscreen */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-              style={{
-                  position: 'fixed', inset: 0, minHeight: '100svh', width: '100%', top: 0, left: 0,
-                  backgroundColor: 'var(--obsidiana)', zIndex: 200, display: 'flex', flexDirection: 'column',
-                  overflowY: 'auto', pointerEvents: 'auto'
-              }}
-          >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 32px', width: '100%', marginTop: '16px' }}>
-                  <img src="/brand/logotipo-lore.svg" alt="Lore District" style={{ height: '30px' }} />
-                  <button onClick={() => setMenuOpen(false)} style={{ background: 'none', border: 'none', fontSize: '18px', fontWeight: 500, color: 'var(--acero)' }}>
-                      Cerrar
-                  </button>
-              </div>
-              
-              <motion.div 
-                  style={{ display: 'flex', flexDirection: 'column', marginTop: '80px', padding: '0 32px', gap: '32px', perspective: '1000px' }}
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                      hidden: { opacity: 0 },
-                      visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
-                  }}
-              >
-                  <motion.div variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
-                  }}>
-                      <Link to="/" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Inicio</Link>
-                  </motion.div>
-                  <motion.div variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
-                  }}>
-                      <Link to="/productos" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Productos</Link>
-                  </motion.div>
-                  <motion.div variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
-                  }}>
-                      <Link to="/acerca-de" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Acerca de</Link>
-                  </motion.div>
-                  <motion.div variants={{
-                      hidden: { opacity: 0, y: 30 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
-                  }}>
-                      {user ? (
-                        <Link to="/cuenta" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Mi cuenta</Link>
-                      ) : (
-                        <Link to="/iniciar-sesion" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Iniciar sesión</Link>
-                      )}
-                  </motion.div>
-              </motion.div>
-          </motion.div>
+          <>
+            <motion.div
+                onClick={() => setMenuOpen(false)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                    position: 'fixed', inset: 0, height: '100svh', width: '100%',
+                    background: 'rgba(0, 0, 0, 0.4)', zIndex: 190,
+                }}
+            />
+            <motion.div
+                initial={{ y: '-100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-100%' }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                    position: 'fixed', top: 0, left: 0, width: '100%', height: '50svh', minHeight: '420px',
+                    backgroundColor: 'var(--obsidiana)', zIndex: 200, display: 'flex', flexDirection: 'column',
+                    overflowY: 'auto', borderBottom: '1px solid var(--border)',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+                }}
+            >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px' }}>
+                    <img src="/brand/logotipo-lore.svg" alt="Lore District" style={{ height: '20px' }} />
+                    <button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" style={{ background: 'none', border: 'none', color: 'var(--text-soft)', display: 'flex', padding: '4px' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" /></svg>
+                    </button>
+                </div>
+
+                <motion.div
+                    style={styles.menuColumns}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={{
+                        hidden: {},
+                        visible: { transition: { staggerChildren: 0.055, delayChildren: 0.15 } }
+                    }}
+                >
+                    <nav style={styles.menuColNav}>
+                        <MenuItem to="/" onClick={() => setMenuOpen(false)}>Inicio</MenuItem>
+                        <MenuItem to="/productos" onClick={() => setMenuOpen(false)}>Productos</MenuItem>
+                        <MenuItem to="/acerca-de" onClick={() => setMenuOpen(false)}>Acerca de</MenuItem>
+                        <MenuItem to={user ? '/cuenta' : '/iniciar-sesion'} onClick={() => setMenuOpen(false)}>
+                            {user ? 'Mi cuenta' : 'Iniciar sesión'}
+                        </MenuItem>
+                    </nav>
+
+                    <div style={styles.menuColLegal}>
+                        <MenuItem to="/politica-de-privacidad" small onClick={() => setMenuOpen(false)}>Política de privacidad</MenuItem>
+                        <MenuItem to="/terminos-y-condiciones" small onClick={() => setMenuOpen(false)}>Términos y condiciones</MenuItem>
+                        <motion.div variants={itemVariants}>
+                            <SocialLinks containerStyle={styles.menuSocialRow} linkStyle={styles.menuSocialLink} />
+                        </motion.div>
+                    </div>
+                </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
   );
 }
 
+const itemVariants = {
+    hidden: { opacity: 0, x: -16, filter: 'blur(4px)' },
+    visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
+};
+
+function MenuItem({ to, onClick, small, children }) {
+    return (
+        <motion.div variants={itemVariants}>
+            <Link to={to} onClick={onClick} style={small ? legalLinkStyle : mobileMenuLinkStyle}>{children}</Link>
+        </motion.div>
+    );
+}
+
 const mobileMenuLinkStyle = {
-    fontSize: '48px',
-    fontFamily: 'var(--font-display)',
-    fontWeight: 900,
-    textTransform: 'uppercase',
-    letterSpacing: '-0.02em',
+    fontSize: 'clamp(22px, 4vw, 30px)',
+    fontFamily: 'var(--font)',
+    fontWeight: 500,
+    letterSpacing: '-0.01em',
     color: 'var(--acero)',
     display: 'block',
-    textDecoration: 'none'
+    textDecoration: 'none',
+};
+
+const legalLinkStyle = {
+    fontSize: '14px',
+    fontFamily: 'var(--font)',
+    fontWeight: 400,
+    color: 'var(--text-soft)',
+    display: 'block',
+    textDecoration: 'none',
+};
+
+const styles = {
+    menuColumns: {
+        display: 'grid',
+        gridTemplateColumns: '1.3fr 1fr',
+        gap: '24px',
+        padding: '12px 24px 32px',
+        flex: 1,
+    },
+    menuColNav: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '18px',
+    },
+    menuColLegal: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+        borderLeft: '1px solid var(--border)',
+        paddingLeft: '24px',
+    },
+    menuSocialRow: {
+        display: 'flex',
+        gap: '10px',
+        marginTop: '8px',
+    },
+    menuSocialLink: {
+        width: '34px',
+        height: '34px',
+        borderRadius: '50%',
+        border: '1px solid var(--border)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--acero)',
+    },
 };
