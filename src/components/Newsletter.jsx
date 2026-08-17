@@ -1,0 +1,112 @@
+import { useState } from 'react';
+import { api } from '../api';
+
+export default function Newsletter() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | done | error
+  const [error, setError] = useState('');
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus('loading');
+    setError('');
+    try {
+      await api.post('subscribe.php', { email });
+      setStatus('done');
+    } catch (err) {
+      setError(err.message);
+      setStatus('error');
+    }
+  }
+
+  return (
+    <section className="container" style={styles.section}>
+      <p style={styles.eyebrow}>Únete a la manada</p>
+      <h2 style={styles.headline}>10% de descuento en tu primera compra</h2>
+      <p style={styles.subtext}>
+        Suscríbete y entérate antes que nadie de nuevos lanzamientos, colecciones y bordados exclusivos.
+      </p>
+
+      {status === 'done' ? (
+        <p style={styles.successMsg}>
+          Listo, ya estás dentro. Usa el código <strong>BIENVENIDA10</strong> en tu primera compra.
+        </p>
+      ) : (
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <input
+            type="email"
+            required
+            placeholder="tu@correo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={styles.input}
+          />
+          <button className="btn btn-primary" disabled={status === 'loading'} style={styles.submitBtn}>
+            {status === 'loading' ? 'Enviando…' : 'Quiero mi descuento'}
+          </button>
+        </form>
+      )}
+      {status === 'error' && <p style={styles.errorMsg}>{error}</p>}
+    </section>
+  );
+}
+
+const styles = {
+  section: {
+    padding: '80px 20px',
+    textAlign: 'center',
+    maxWidth: '560px',
+  },
+  eyebrow: {
+    fontSize: '14px',
+    color: 'var(--text-soft)',
+    marginBottom: '10px',
+    textTransform: 'none',
+    fontFamily: 'var(--font)',
+  },
+  headline: {
+    fontSize: 'clamp(24px, 4vw, 34px)',
+    marginBottom: '14px',
+  },
+  subtext: {
+    fontSize: '15px',
+    color: 'var(--text-soft)',
+    lineHeight: 1.6,
+    marginBottom: '28px',
+    fontFamily: 'var(--font)',
+  },
+  form: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  input: {
+    flex: '1 1 240px',
+    padding: '15px 18px',
+    borderRadius: '999px',
+    border: '1px solid var(--border)',
+    background: '#242428',
+    color: 'var(--acero)',
+    fontSize: '15px',
+  },
+  submitBtn: {
+    borderRadius: '999px',
+    padding: '15px 28px',
+    whiteSpace: 'nowrap',
+  },
+  successMsg: {
+    fontSize: '15px',
+    color: 'var(--acero)',
+    lineHeight: 1.6,
+    background: '#242428',
+    border: '1px solid var(--border)',
+    borderRadius: '12px',
+    padding: '18px 20px',
+  },
+  errorMsg: {
+    fontSize: '13px',
+    color: 'var(--danger)',
+    marginTop: '12px',
+  },
+};
