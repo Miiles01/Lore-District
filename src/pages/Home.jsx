@@ -1,54 +1,68 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { api } from '../api';
 import ProductCard from '../components/ProductCard';
 import Newsletter from '../components/Newsletter';
 
-// Cadena de color en el fondo al hacer scroll: Obsidiana → Selva → Rosa Neón (tono oscuro) → Obsidiana.
-// Los tonos se mantienen oscuros (mezclados con Obsidiana) para que el texto claro siga siendo legible.
-const BG_CHAIN = ['#1c1c1f', '#15291d', '#2a1522', '#1c1c1f'];
-const BG_STOPS = [0, 0.4, 0.75, 1];
+gsap.registerPlugin(ScrollTrigger);
 
-function hexToRgb(hex) {
-  const n = parseInt(hex.slice(1), 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-}
-
-function mixColorChain(colors, stops, t) {
-  const clamped = Math.min(1, Math.max(0, t));
-  let i = 0;
-  while (i < stops.length - 2 && clamped > stops[i + 1]) i++;
-  const localT = (clamped - stops[i]) / (stops[i + 1] - stops[i] || 1);
-  const [r1, g1, b1] = hexToRgb(colors[i]);
-  const [r2, g2, b2] = hexToRgb(colors[i + 1]);
-  const r = Math.round(r1 + (r2 - r1) * localT);
-  const g = Math.round(g1 + (g2 - g1) * localT);
-  const b = Math.round(b1 + (b2 - b1) * localT);
-  return `rgb(${r}, ${g}, ${b})`;
-}
+// Regla de fondos: solo Obsidiana (negro) o Blanco, nunca otro color (ver DESIGN_SYSTEM.md).
+// El home alterna Negro (hero) → Blanco (colección) → Negro (newsletter) al hacer scroll,
+// con un tween corto y suave en cada punto de cambio (mismo patrón usado en NJB: GSAP
+// ScrollTrigger + onEnter/onLeaveBack sobre checkpoints, no un listener de scroll crudo).
+// Los elementos con la clase .home-flip-text son controlados por GSAP directamente en el DOM;
+// a propósito no se les pasa `color` vía React `style` para que no compitan por la propiedad.
+const OBSIDIANA = '#1c1c1f';
+const ACERO = '#f2f2f2';
+const BLANCO = '#ffffff';
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
-  const [progress, setProgress] = useState(0);
+  const wrapperRef = useRef(null);
+  const productsRef = useRef(null);
+  const newsletterRef = useRef(null);
 
   useEffect(() => {
-    function onScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [featured]);
-
-  const background = mixColorChain(BG_CHAIN, BG_STOPS, progress);
+    api.get('products.php?featured=1')
+      .then((data) => {
+        setFeatured(data);
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
-    api.get('products.php?featured=1').then(setFeatured).catch(() => {});
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const ctx = gsap.context(() => {
+      function flip(bg, text) {
+        gsap.to(wrapper, { backgroundColor: bg, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to('.home-flip-text', { color: text, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+      }
+
+      ScrollTrigger.create({
+        trigger: productsRef.current,
+        start: 'top 75%',
+        onEnter: () => flip(BLANCO, OBSIDIANA),
+        onLeaveBack: () => flip(OBSIDIANA, ACERO),
+      });
+
+      ScrollTrigger.create({
+        trigger: newsletterRef.current,
+        start: 'top 75%',
+        onEnter: () => flip(OBSIDIANA, ACERO),
+        onLeaveBack: () => flip(BLANCO, OBSIDIANA),
+      });
+    }, wrapper);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div style={{ background, transition: 'background-color 0.15s linear' }}>
+    <div ref={wrapperRef} style={{ background: OBSIDIANA }}>
       <section className="hero" style={styles.heroSection}>
         <div className="hero-content-bottom">
           <h1 style={styles.heroHeadline}>
@@ -62,9 +76,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container" style={{ padding: '60px 20px 40px' }}>
-        <p style={styles.eyebrow}>Nuestra colección para ti</p>
-        <h2 style={{ marginBottom: '32px' }}>Prendas que cuentan tu historia</h2>
+      <section ref={productsRef} className="container" style={{ padding: '60px 20px 40px' }}>
+        <p className="home-flip-text home-eyebrow" style={styles.eyebrow}>Nuestra colección para ti</p>
+        <h2 className="home-flip-text" style={{ marginBottom: '32px' }}>Prendas que cuentan tu historia</h2>
 
         <div className="carousel-track" style={{ padding: '0 20px 16px', margin: '0 -20px' }}>
           {featured.map((p) => (
@@ -81,7 +95,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div ref={newsletterRef} style={{ display: 'flex', justifyContent: 'center' }}>
         <Newsletter />
       </div>
     </div>
@@ -120,24 +134,8 @@ const styles = {
   },
   eyebrow: {
     fontSize: '14px',
-    color: 'var(--text-soft)',
     marginBottom: '8px',
     textTransform: 'none',
     fontFamily: 'var(--font)',
-  },
-  quote: {
-    padding: '60px 24px',
-    textAlign: 'center',
-    background: 'var(--acero)',
-  },
-  quoteText: {
-    fontSize: '26px',
-    fontWeight: 400,
-    color: 'var(--obsidiana)',
-    marginBottom: '10px',
-  },
-  quoteSub: {
-    fontSize: '15px',
-    color: 'var(--obsidiana)',
   },
 };

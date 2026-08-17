@@ -22,17 +22,27 @@ continúa."*
 
 | Nombre | Hex | Uso |
 |---|---|---|
-| Obsidiana | `#1C1C1F` | Fondo principal de la tienda. Debe dominar mínimo 70% del lienzo visual. |
-| Acero | `#F2F2F2` | Texto principal sobre fondo oscuro, neutro secundario. |
-| Rosa Neón | `#ED4A9B` | Acento de alto voltaje: CTAs, precios destacados, bordados/gráficos de impacto. |
-| Azul Distrito | `#0E4EB5` | Acento eléctrico: ediciones especiales, temas de motor/velocidad. |
-| Selva | `#0F4724` | Acento tierra: colecciones clásicas, nostalgia militar/anime. |
+| Obsidiana | `#1C1C1F` | Fondo (negro). |
+| Blanco | `#FFFFFF` | Fondo (claro). |
+| Acero | `#F2F2F2` | Texto principal sobre fondo oscuro, neutro secundario. Nunca como fondo de sección grande. |
+| Rosa Neón | `#ED4A9B` | Acento de alto voltaje: CTAs, precios destacados, bordados/gráficos de impacto. Nunca como fondo de sección. |
+| Azul Distrito | `#0E4EB5` | Acento eléctrico: ediciones especiales, temas de motor/velocidad. Nunca como fondo de sección. |
+| Selva | `#0F4724` | Acento tierra: colecciones clásicas, nostalgia militar/anime. Nunca como fondo de sección. |
 | Degradado editorial | `#806C7B → #F0C5B4` | Solo para fondos editoriales con modelos/fotografía, nunca como fondo de UI. |
 
-**Reglas de aplicación:**
-- Obsidiana es el fondo dominante de toda la tienda (`--obsidiana` en `src/index.css`). No usar blanco puro como fondo de página en la tienda.
-- No combinar Rosa Neón y Azul Distrito en la misma proporción dentro de una misma pieza — una sola acentuación eléctrica por prenda/sección.
-- Superficies elevadas (tarjetas, drawers, modales) usan `#242428` (Obsidiana +1 nivel), no blanco.
+### Regla de fondos (2026-08-17, decisión firme del cliente)
+
+**Los fondos de página/sección solo pueden ser Obsidiana (negro) o Blanco. Ningún otro color —
+ni Rosa Neón, ni Azul Distrito, ni Selva, ni tonos mezclados/tintados de estos— se usa como
+fondo, por ahora.** Esto aplica a fondos de `<section>`, wrappers de página, y cualquier efecto
+de transición de fondo (ej. el efecto de scroll del home). Los acentos de marca (Rosa Neón, Azul
+Distrito, Selva) se reservan exclusivamente para: texto, botones/CTAs, bordes, badges, íconos y
+detalles puntuales — nunca para pintar un fondo grande.
+
+**Reglas de aplicación adicionales:**
+- Superficies elevadas dentro de un fondo Obsidiana (tarjetas, drawers, modales) usan `#242428`
+  (Obsidiana +1 nivel, sigue siendo "negro"), no un tinte de color.
+- El panel `/admin` sigue siendo la única zona con fondo blanco permanente (ver sección 5).
 - Nunca pastel ni degradados arcoíris. La vibra es firme, directa, audaz.
 
 Todas las variables viven en `src/index.css` como custom properties (`--obsidiana`, `--acero`, `--rosa-neon`, `--azul-distrito`, `--selva`, `--gradient-editorial`). Los alias heredados de la duplicación técnica (`--charcoal`, `--pink`, `--cream`, `--text`, `--text-soft`, `--gold`) apuntan a estos valores — úsalos en componentes nuevos para heredar el tema automáticamente en vez de hardcodear hex.

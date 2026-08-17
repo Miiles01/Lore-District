@@ -502,6 +502,11 @@ input, select, textarea {
   scrollbar-color: #d1d1d1 transparent;
 }
 
+/* Home: texto controlado directamente por GSAP (ver src/pages/Home.jsx) */
+.home-eyebrow {
+  color: var(--text-soft);
+}
+
 /* Typography Rules */
 .font-pacifico {
   font-family: 'Pacifico', cursive;
