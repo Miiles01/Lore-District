@@ -27,3 +27,4 @@ database/*.sqlite
 *.njsproj
 *.sln
 *.sw?
+graphify-out/
