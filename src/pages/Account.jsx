@@ -19,7 +19,7 @@ export default function Account() {
   if (!user) return <Navigate to="/iniciar-sesion" replace />;
 
   return (
-    <div className="container" style={{ padding: '28px 20px 48px' }}>
+    <div className="container" style={{ padding: '110px 20px 48px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div>
           <h1 style={{ fontSize: '22px' }}>Hola, {user.name.split(' ')[0]}</h1>
@@ -62,11 +62,13 @@ export default function Account() {
 
 const styles = {
   card: {
-    background: 'var(--white)',
+    background: '#242428',
+    border: '1px solid var(--border)',
     borderRadius: 'var(--radius)',
     padding: '16px 18px',
     boxShadow: 'var(--shadow)',
     textAlign: 'left',
+    color: 'var(--acero)',
   },
   cardHeader: {
     display: 'flex',

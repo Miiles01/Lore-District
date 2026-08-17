@@ -13,9 +13,6 @@ export default function Home() {
   return (
     <div>
       <section className="hero" style={styles.heroSection}>
-        <div className="hero-content-top">
-          <img src="/brand/logotipo-lore.svg" alt="Lore District" className="hero-wordmark" />
-        </div>
         <div className="hero-content-bottom">
           <h1 style={styles.heroHeadline}>
             La cultura <span style={{ color: 'var(--rosa-neon)' }}>se viste.</span><br />

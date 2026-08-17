@@ -28,7 +28,7 @@ export default function Register() {
   }
 
   return (
-    <div className="container" style={{ padding: '40px 20px', maxWidth: '420px' }}>
+    <div className="container" style={{ padding: '110px 20px 40px', maxWidth: '420px' }}>
       <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>Crear cuenta</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
         {error && <div className="error-msg">{error}</div>}

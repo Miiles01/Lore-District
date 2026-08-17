@@ -89,24 +89,12 @@ export default function Header() {
           </svg>
         </motion.button>
 
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} aria-label="Inicio">
+        <Link to="/" style={{ display: 'flex', alignItems: 'center' }} aria-label="Inicio">
           <motion.img
             src="/brand/logotipo-lore.svg"
             alt="Lore"
-            style={{ height: '22px', filter: logoFilter, opacity: logoOpacity }}
+            style={{ height: '24px', filter: logoFilter, opacity: logoOpacity }}
           />
-          <motion.span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 900,
-              fontSize: '10px',
-              letterSpacing: '0.2em',
-              color: textColor,
-              opacity: logoOpacity,
-            }}
-          >
-            DISTRICT
-          </motion.span>
         </Link>
 
         <div style={{ display: 'flex', gap: '6px' }}>
@@ -175,6 +163,12 @@ export default function Header() {
                       visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
                   }}>
                       <Link to="/productos" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Productos</Link>
+                  </motion.div>
+                  <motion.div variants={{
+                      hidden: { opacity: 0, y: 30 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } }
+                  }}>
+                      <Link to="/acerca-de" onClick={() => setMenuOpen(false)} style={mobileMenuLinkStyle}>Acerca de</Link>
                   </motion.div>
                   <motion.div variants={{
                       hidden: { opacity: 0, y: 30 },

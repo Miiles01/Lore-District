@@ -6,6 +6,7 @@ import CartDrawer from './components/CartDrawer';
 // ShippingModal deshabilitado temporalmente (precio dinámico por ubicación en pausa,
 // ver useDisplayPrice.js) mientras el enfoque está en el diseño visual de la tienda.
 import Home from './pages/Home';
+import AcercaDe from './pages/AcercaDe';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
@@ -38,6 +39,7 @@ function App() {
     <SmoothScroll>
       <Routes>
         <Route path="/" element={<StoreLayout><Home /></StoreLayout>} />
+        <Route path="/acerca-de" element={<StoreLayout><AcercaDe /></StoreLayout>} />
         <Route path="/productos" element={<StoreLayout><Products /></StoreLayout>} />
         <Route path="/producto/:slug" element={<StoreLayout><ProductDetail /></StoreLayout>} />
         <Route path="/pagar" element={<StoreLayout><Checkout /></StoreLayout>} />

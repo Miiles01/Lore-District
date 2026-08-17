@@ -30,9 +30,9 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', padding: '40px 20px' }}>
-      <div style={{ background: '#fff', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 8px 30px rgba(0,0,0,0.04)', width: '100%', maxWidth: '400px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '24px', marginBottom: '24px', fontWeight: 600 }}>Iniciar sesión</h1>
+    <div style={{ minHeight: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--obsidiana)', padding: '40px 20px' }}>
+      <div style={{ background: '#242428', border: '1px solid var(--border)', padding: '40px 32px', borderRadius: '16px', boxShadow: '0 8px 30px rgba(0,0,0,0.3)', width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '24px', marginBottom: '24px', fontWeight: 900, color: 'var(--acero)' }}>Iniciar sesión</h1>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
           {error && <div className="error-msg">{error}</div>}
           <div className="field">
@@ -51,7 +51,7 @@ export default function Login() {
           </button>
         </form>
         <p style={{ marginTop: '24px', fontSize: '14px', color: 'var(--text-soft)' }}>
-          ¿No tienes cuenta? <Link to="/crear-cuenta" style={{ color: 'var(--charcoal)', fontWeight: 500, textDecoration: 'underline' }}>Crear cuenta</Link>
+          ¿No tienes cuenta? <Link to="/crear-cuenta" style={{ color: 'var(--rosa-neon)', fontWeight: 500, textDecoration: 'underline' }}>Crear cuenta</Link>
         </p>
       </div>
     </div>
