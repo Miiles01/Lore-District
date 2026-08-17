@@ -502,6 +502,28 @@ input, select, textarea {
   scrollbar-color: #d1d1d1 transparent;
 }
 
+/* Menú desplegable del Header: una columna (filas) en mobile, dos columnas desde tablet,
+   con más padding interno mientras más grande la pantalla. */
+.menu-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  padding: 12px 24px 32px;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  .menu-columns {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    padding: 20px 40px 40px;
+  }
+}
+@media (min-width: 1024px) {
+  .menu-columns {
+    padding: 32px 72px 56px;
+  }
+}
+
 /* Home: texto controlado directamente por GSAP (ver src/pages/Home.jsx) */
 .home-eyebrow {
   color: var(--text-soft);

@@ -42,7 +42,9 @@ export default function Header() {
   const borderRadiusRange = useTransform(scrollY, [0, 100], [0, 50]);
   const topRange = useTransform(scrollY, [0, 100], [0, 20]);
   
-  // Fondo de transparente a Obsidiana sólida al hacer scroll (tema oscuro)
+  // Fondo de transparente a Obsidiana sólida al hacer scroll: solo en el home, donde el header
+  // se monta sobre el hero oscuro. En el resto de páginas (algunas con fondo blanco, ej. /productos)
+  // el header es siempre sólido para no perder contraste con los íconos.
   const bgOpacityBase = useTransform(scrollY, [0, 50], [0, 1]);
 
   const springConfig = { stiffness: 400, damping: 40 };
@@ -51,7 +53,7 @@ export default function Header() {
   const animatedRadius = useSpring(borderRadiusRange, springConfig);
   const animatedTop = useSpring(topRange, springConfig);
 
-  const backgroundColor = useTransform(bgOpacityBase, (o) => `rgba(28, 28, 31, ${o})`);
+  const backgroundColor = useTransform(bgOpacityBase, (o) => `rgba(28, 28, 31, ${isHome ? o : 1})`);
   const backdropFilter = "none";
   const borderColor = "transparent";
   const textColor = "#f2f2f2";
@@ -151,14 +153,14 @@ export default function Header() {
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px' }}>
-                    <img src="/brand/logotipo-lore.svg" alt="Lore District" style={{ height: '20px' }} />
                     <button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" style={{ background: 'none', border: 'none', color: 'var(--text-soft)', display: 'flex', padding: '4px' }}>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" /></svg>
                     </button>
+                    <img src="/brand/logotipo-lore.svg" alt="Lore District" style={{ height: '20px' }} />
                 </div>
 
                 <motion.div
-                    style={styles.menuColumns}
+                    className="menu-columns"
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
@@ -225,13 +227,6 @@ const legalLinkStyle = {
 };
 
 const styles = {
-    menuColumns: {
-        display: 'grid',
-        gridTemplateColumns: '1.3fr 1fr',
-        gap: '24px',
-        padding: '12px 24px 32px',
-        flex: 1,
-    },
     menuColNav: {
         display: 'flex',
         flexDirection: 'column',
@@ -241,8 +236,6 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         gap: '14px',
-        borderLeft: '1px solid var(--border)',
-        paddingLeft: '24px',
     },
     menuSocialRow: {
         display: 'flex',
