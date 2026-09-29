@@ -289,7 +289,7 @@ export default function ProductDetail() {
         
         {/* Lado derecho: Info y Opciones */}
         <div className="product-info-container" style={{ padding: '20px 0' }}>
-          <h1 style={{ fontSize: '32px', marginBottom: '8px', fontWeight: 500 }}>{product.name}</h1>
+          <h2 style={{ fontSize: 'clamp(22px, 4vw, 32px)', marginBottom: '8px', fontWeight: 500, textTransform: 'none', letterSpacing: '-0.01em' }}>{product.name}</h2>
           <div style={styles.priceRow}>
             <span style={styles.price}>{money(price)}</span>
             {hasDiscount && <span style={styles.originalPrice}>{money(originalPrice)}</span>}
@@ -343,7 +343,12 @@ export default function ProductDetail() {
             </div>
           )}
 
-          {/* Fila de Agregar al carrito */}
+          {/* Comprar ahora — acción principal */}
+          <button style={styles.btnPrimary} onClick={handleBuyNow}>
+            Comprar ahora
+          </button>
+
+          {/* Fila de Agregar al carrito — acción secundaria */}
           <div style={styles.addToCartRow}>
             <div style={styles.qtyControl}>
               <button style={styles.qtyBtn} onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
@@ -352,7 +357,7 @@ export default function ProductDetail() {
             </div>
             
             <button style={styles.btnSecondary} onClick={handleAddToCart}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '8px', opacity: 0.7 }}>
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -360,11 +365,6 @@ export default function ProductDetail() {
               Agregar al carrito
             </button>
           </div>
-
-          {/* Comprar ahora */}
-          <button style={styles.btnSecondaryBlock} onClick={handleBuyNow}>
-            Comprar ahora
-          </button>
 
           {/* Descripción al final (según mockup) */}
           <div style={{ marginTop: '30px' }}>
@@ -538,39 +538,41 @@ const styles = {
     color: 'var(--text-soft)',
     padding: '0 8px',
   },
+  btnPrimary: {
+    width: '100%',
+    height: '54px',
+    borderRadius: '12px',
+    background: 'var(--rosa-neon)',
+    color: 'var(--obsidiana)',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '16px',
+    fontWeight: 700,
+    cursor: 'pointer',
+    transition: 'opacity 0.2s, transform 0.15s',
+    marginBottom: '10px',
+    letterSpacing: '0.01em',
+  },
   btnSecondary: {
     flex: 1,
     height: '52px',
     borderRadius: '12px',
-    background: 'var(--acero)',
-    color: 'var(--obsidiana)',
-    border: 'none',
+    background: '#2e2e33',
+    color: 'var(--acero)',
+    border: '1px solid var(--border)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '15px',
+    fontSize: '14px',
     fontWeight: 500,
     cursor: 'pointer',
-    transition: 'background 0.2s',
-  },
-  btnSecondaryBlock: {
-    width: '100%',
-    height: '52px',
-    borderRadius: '12px',
-    background: 'var(--acero)',
-    color: 'var(--obsidiana)',
-    border: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '15px',
-    fontWeight: 500,
-    cursor: 'pointer',
-    transition: 'background 0.2s',
+    transition: 'background 0.2s, border-color 0.2s',
   },
   description: {
     fontSize: '15px',
-    lineHeight: 1.6,
+    lineHeight: 1.65,
     color: 'var(--text-soft)',
   },
 };

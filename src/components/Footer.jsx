@@ -4,7 +4,6 @@ import SocialLinks from './SocialLinks';
 export default function Footer() {
   return (
     <footer className="site-footer" style={styles.footer}>
-      <img src="/brand/logotipo-lore-district.svg" alt="Lore District" style={styles.logo} />
       <p style={styles.text}>La cultura se viste. La historia continúa.</p>
 
       <SocialLinks containerStyle={styles.socialRow} linkStyle={styles.socialLink} />
@@ -16,6 +15,15 @@ export default function Footer() {
       </div>
 
       <p style={styles.small}>Envíos en México · © 2026 Lore District</p>
+
+      {/* Logo grande al fondo — cierre visual de la página */}
+      <div style={styles.footerLogoWrap}>
+        <img
+          src="/brand/lore-footer.svg"
+          alt="Lore District"
+          style={styles.footerLogo}
+        />
+      </div>
     </footer>
   );
 }
@@ -30,12 +38,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  logo: {
-    width: 'min(85%, 440px)',
-    height: 'auto',
-    display: 'block',
-    margin: '0 auto 48px',
+    paddingBottom: 0,
   },
   text: {
     fontSize: '16px',
@@ -79,5 +82,17 @@ const styles = {
     fontSize: '12px',
     opacity: 0.6,
     color: '#1c1c1f',
+    marginBottom: '32px',
+  },
+  footerLogoWrap: {
+    width: '100%',
+    overflow: 'hidden',
+    lineHeight: 0,
+  },
+  footerLogo: {
+    width: '100%',
+    maxWidth: '100%',
+    height: 'auto',
+    display: 'block',
   },
 };

@@ -55,10 +55,9 @@ export default function Header() {
 
   const backgroundColor = useTransform(bgOpacityBase, (o) => `rgba(28, 28, 31, ${isHome ? o : 1})`);
   const backdropFilter = "none";
-  const borderColor = "transparent";
   const textColor = "#f2f2f2";
-  const logoOpacity = 1;
   const logoFilter = "none";
+  const logoOpacity = 1;
 
   return (
     <>
@@ -69,42 +68,55 @@ export default function Header() {
             top: animatedTop,
             backgroundColor,
             backdropFilter,
-            borderColor,
+            borderColor: 'transparent',
             position: 'fixed',
             left: '50%',
             x: '-50%',
             zIndex: 100,
-            borderWidth: '1px',
-            borderStyle: 'solid',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '14px 18px',
+            overflow: 'hidden', // Para contener el fondo blanco
         }}
+        transition={{ duration: 0.3 }}
       >
+
         <motion.button
-          aria-label="Menú"
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMenuOpen((v) => !v)}
-          style={{ background: 'none', border: 'none', color: textColor, padding: '6px', display: 'flex' }}
+          style={{ background: 'none', border: 'none', padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '34px', height: '34px' }}
+          animate={{ color: textColor }}
+          transition={{ duration: 0.3 }}
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
+          {menuOpen ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" />
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          )}
         </motion.button>
 
-        <Link to="/" style={{ display: 'flex', alignItems: 'center' }} aria-label="Inicio">
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', zIndex: 1 }} aria-label="Inicio">
           <motion.img
             src="/brand/logotipo-lore.svg"
             alt="Lore"
-            style={{ height: '24px', filter: logoFilter, opacity: logoOpacity }}
+            style={{ height: '24px', opacity: logoOpacity }}
+            animate={{ filter: logoFilter }}
+            transition={{ duration: 0.3 }}
           />
         </Link>
 
-        <div style={{ display: 'flex', gap: '6px' }}>
+        <div style={{ display: 'flex', gap: '6px', zIndex: 1 }}>
           <motion.button
             aria-label={user ? 'Mi cuenta' : 'Iniciar sesión'}
             onClick={() => navigate(user ? '/cuenta' : '/iniciar-sesion')}
-            style={{ background: 'none', border: 'none', color: textColor, padding: '6px', display: 'flex' }}
+            style={{ background: 'none', border: 'none', padding: '6px', display: 'flex' }}
+            animate={{ color: textColor }}
+            transition={{ duration: 0.3 }}
           >
             <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
@@ -114,7 +126,9 @@ export default function Header() {
           <motion.button 
             aria-label="Carrito" 
             onClick={() => setDrawerOpen(true)} 
-            style={{ background: 'none', border: 'none', color: textColor, padding: '6px', display: 'flex', position: 'relative' }}
+            style={{ background: 'none', border: 'none', padding: '6px', display: 'flex', position: 'relative' }}
+            animate={{ color: textColor }}
+            transition={{ duration: 0.3 }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M6 8h12l-1.2 11a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 8Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
@@ -131,36 +145,39 @@ export default function Header() {
           <>
             <motion.div
                 onClick={() => setMenuOpen(false)}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
                 style={{
                     position: 'fixed', inset: 0, height: '100svh', width: '100%',
-                    background: 'rgba(0, 0, 0, 0.4)', zIndex: 190,
+                    background: 'transparent', zIndex: 190, cursor: 'pointer'
                 }}
             />
             <motion.div
-                initial={{ y: '-100%' }}
-                animate={{ y: 0 }}
-                exit={{ y: '-100%' }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, scale: 0.98, y: -15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98, y: -15 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 style={{
-                    position: 'fixed', top: 0, left: 0, width: '100%', height: '50svh', minHeight: '420px',
-                    backgroundColor: 'var(--obsidiana)', zIndex: 200, display: 'flex', flexDirection: 'column',
-                    overflowY: 'auto', borderBottom: '1px solid var(--border)',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+                    position: 'fixed', 
+                    left: '50%',
+                    x: '-50%',
+                    top: animatedTop,
+                    marginTop: '68px', // Espacio para el navbar (altura aprox 54px + gap 14px)
+                    width: isMobile ? animatedMobileWidth : animatedDesktopWidth,
+                    maxHeight: 'calc(100vh - 100px)',
+                    backgroundColor: 'rgba(28, 28, 31, 0.85)',
+                    backdropFilter: 'blur(24px)',
+                    WebkitBackdropFilter: 'blur(24px)',
+                    zIndex: 200, 
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    overflowY: 'auto', 
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '32px',
+                    boxShadow: '0 24px 70px rgba(0,0,0,0.4)',
                 }}
             >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 24px' }}>
-                    <button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" style={{ background: 'none', border: 'none', color: 'var(--text-soft)', display: 'flex', padding: '4px' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" /></svg>
-                    </button>
-                    <img src="/brand/logotipo-lore.svg" alt="Lore District" style={{ height: '20px' }} />
-                </div>
-
                 <motion.div
                     className="menu-columns"
+                    style={{ paddingTop: '40px', paddingBottom: '40px' }}
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
@@ -208,13 +225,14 @@ function MenuItem({ to, onClick, small, children }) {
 }
 
 const mobileMenuLinkStyle = {
-    fontSize: 'clamp(22px, 4vw, 30px)',
+    fontSize: 'clamp(28px, 5vw, 42px)',
     fontFamily: 'var(--font)',
     fontWeight: 500,
-    letterSpacing: '-0.01em',
+    letterSpacing: '-0.02em',
     color: 'var(--acero)',
     display: 'block',
     textDecoration: 'none',
+    transition: 'opacity 0.2s',
 };
 
 const legalLinkStyle = {

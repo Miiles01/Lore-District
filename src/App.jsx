@@ -3,6 +3,7 @@ import { SmoothScroll } from './components/SmoothScroll';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
+import ScrollToTopButton from './components/ScrollToTopButton';
 // ShippingModal deshabilitado temporalmente (precio dinámico por ubicación en pausa,
 // ver useDisplayPrice.js) mientras el enfoque está en el diseño visual de la tienda.
 import Home from './pages/Home';
@@ -32,6 +33,7 @@ function StoreLayout({ children }) {
       <main style={{ flex: 1 }}>{children}</main>
       {!hideFooter && <Footer />}
       <CartDrawer />
+      <ScrollToTopButton />
     </>
   );
 }

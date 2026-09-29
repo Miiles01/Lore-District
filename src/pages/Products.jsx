@@ -47,7 +47,11 @@ export default function Products() {
   return (
     <div style={styles.page}>
       <div className="container" style={{ padding: '110px 20px 48px' }}>
+        <p style={styles.eyebrow}>Colección completa</p>
         <h1 style={styles.h1}>Productos</h1>
+        {!loading && products.length > 0 && (
+          <p style={styles.count}>{products.length} {products.length === 1 ? 'prenda' : 'prendas'}</p>
+        )}
 
         <div style={styles.filters}>
           <CustomSelect
@@ -92,10 +96,27 @@ const styles = {
     background: '#ffffff',
     minHeight: '100vh',
   },
+  eyebrow: {
+    fontSize: '12px',
+    fontWeight: 500,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    color: 'rgba(28, 28, 31, 0.45)',
+    marginBottom: '6px',
+    fontFamily: 'var(--font)',
+  },
   h1: {
-    fontSize: '26px',
-    marginBottom: '18px',
+    fontSize: 'clamp(28px, 5vw, 40px)',
+    marginBottom: '4px',
     color: '#1c1c1f',
+    lineHeight: 1.05,
+  },
+  count: {
+    fontSize: '13px',
+    color: 'rgba(28, 28, 31, 0.45)',
+    fontFamily: 'var(--font)',
+    marginBottom: '18px',
+    marginTop: '4px',
   },
   filters: {
     display: 'flex',
