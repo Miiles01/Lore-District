@@ -1,0 +1,9 @@
+# Mar & Vic · Rutas del SPA en Hostinger
+# Cualquier ruta que no sea un archivo o carpeta real (como /api) sirve index.html
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+
+# No permitir listar directorios
+Options -Indexes
